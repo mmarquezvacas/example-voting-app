@@ -23,7 +23,7 @@ pipeline {
             steps{
                 echo 'Running unit tests'
                 dir('vote') {
-                    sh 'nose tests -v'
+                    sh 'nosetests -v'
                 }
             }
         }
