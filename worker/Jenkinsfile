@@ -1,37 +1,39 @@
 pipeline {
-    agent any
-    tools {
-        maven 'Maven 3.8.1'
+    agent {
+        docker {
+            image 'maven:3.6.1-jdk-8-alpine'
+            args '-v $HOME/.m2:/root/.m2'
+        }
     }
     stages {
-        stage('build'){
-            when{
+        stage('build') {
+            when {
                 changeset '**/worker/**'
             }
-            steps{
+            steps {
                 echo 'Compiling worker app'
                 dir('worker') {
                     sh 'mvn compile'
                 }
             }
         }
-        stage('test'){
+        stage('test') {
             when{
                 changeset '**/worker/**'
             }
-            steps{
+            steps {
                 echo 'Running unit tests'
                 dir('worker') {
                     sh 'mvn clean test'
                 }
             }
         }
-        stage('package'){
+        stage('package') {
             when{
                 branch 'master'
                 changeset '**/worker/**'
             }
-            steps{
+            steps {
                 echo 'Packaging worker app'
                 dir('worker') {
                     sh 'mvn package -DskipTests'
