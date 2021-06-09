@@ -55,7 +55,7 @@ pipeline {
             }
         }
         stage('docker-package') {
-            agent any∫
+            agent any
             when{
                 changeset '**/worker/**'
             }
