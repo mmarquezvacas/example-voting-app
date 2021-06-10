@@ -40,6 +40,7 @@ pipeline {
             agent any
             when{
                 changeset '**/vote/**'
+                branch 'master'
             }
             steps {
                 echo 'Packaging app with docker'
@@ -47,6 +48,7 @@ pipeline {
                     docker.withRegistry('https://index.docker.io/v1/','docker-login') {
                         def workerImage = docker.build("mmarquezvacas/vote:v${env.BUILD_ID}","./vote")
                         workerImage.push()
+                        workerImage.push("${env.BRANCH_NAME}")
                     }
                 }
             }
