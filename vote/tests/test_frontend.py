@@ -24,6 +24,7 @@ class VoteUnitTest(unittest.TestCase):
     def test_processed_by_is_set(self):
         """Assert that processed by string is set"""
         result = self.app.get('/')
+        print("Dummy change to make pipeline execute")
         assert 'Processed by' in str(result.data)
 
 if __name__ == '__main__':
